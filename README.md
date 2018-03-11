@@ -1,5 +1,5 @@
 ## RestInPeace
-Testing REST services made easy. Inspired by REST Assured.
+Testing REST services made easy. Inspired by [REST Assured](https://github.com/rest-assured/rest-assured).
 
 RIP is a single [class](https://github.com/lecaillon/RestInPeace/blob/master/src/RestInPeace/RIP.cs) for arranging and formatting code that unit test REST services. The idea is to make them very readable and consistent. RIP does not intend to replace your favorite assertion framework, in fact it's quite the opposite. The example below shows how  RIP uses [Fluent Assertions](http://fluentassertions.com/) to unit test a simple REST service.
 
@@ -70,7 +70,7 @@ Invoke the REST service under test.
 Specify the pass criteria for the test, which fails if not met.
 ```c#
  .Then()
-    // Executes a function that takes the `RIP.HttpResponse` in parameter
+    // Executes an assertion function that takes the `RIP.HttpResponse` in parameter
     .AssertThat(Action<RIP.HttpResponse>)
 
     // Returns the `RIP.HttpResponse` that wraps the original `HttpResponseMessage`
