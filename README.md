@@ -59,10 +59,10 @@ Invoke the REST service under test.
      // Send a PUT request to the specified Uri
     .Put("string")
 
-     //
+     // Sends a PATCH request to the specified Uri
     .Patch("string")
 
-    // 
+    // Send a DELETE request to the specified Uri
     .Delete("string")
 ```
 
@@ -70,9 +70,9 @@ Invoke the REST service under test.
 Specify the pass criteria for the test, which fails if not met.
 ```c#
  .Then()
-    //
+    // Executes a function that takes the `RIP.HttpResponse` in parameter
     .AssertThat(Action<RIP.HttpResponse>)
 
-    //
+    // Returns the `RIP.HttpResponse` that wraps the original `HttpResponseMessage`
     .Retrieve()
 ```
