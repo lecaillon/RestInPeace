@@ -23,26 +23,26 @@ RIP is a single [class](https://github.com/lecaillon/RestInPeace/blob/master/src
 The design of RIP is a call chain that consists of 3 parts that mimics the Arrange Act Assert pattern.
 
 #### Given
-Setup everything needed for the running the tested code.
+Setup everything needed for the running the tested REST service.
 
 ```c#
 Given()
-    // 
+    // Add a JSON serialized object to the POST, PUT or DELETE query
     .Body(object)
 
-    //
+    // Add a HTTP header
     .Header("string", "string")
 
-     //
+     // Add query string parameters for any HTTP verb
     .Query("string", "string")
 
-     //
+     // Provide a fully customized http client 
     .HttpClient(HttpClient)
 
-    // 
+    // Base address used when sending requests
     .BaseAddress(string uri)
 
-    // 
+    // Base address of URI used when sending requests
     .BaseAddress(Uri uri)
 ```
 
@@ -67,7 +67,7 @@ Invoke the REST service under test.
 ```
 
 #### Then
-Specify the pass criteria for the test, which fails it if not met.
+Specify the pass criteria for the test, which fails if not met.
 ```c#
  .Then()
     //
