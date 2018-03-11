@@ -19,7 +19,7 @@ RIP is a single [class](https://github.com/lecaillon/RestInPeace/blob/master/src
       });
 ```
 
-### Structure
+### Design
 The design of RIP is a call chain that consists of 3 parts that mimics the Arrange Act Assert pattern.
 
 #### Given
@@ -50,13 +50,13 @@ Given()
 Invoke the REST service under test.
 ```c#
  .When()
-    //
+    // Send a GET request to the specified Uri
     .Get("string")
 
-    //
+    // Send a POST request to the specified Uri
     .Post("string")
 
-     //
+     // Send a PUT request to the specified Uri
     .Put("string")
 
      //
