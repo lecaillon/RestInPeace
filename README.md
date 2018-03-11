@@ -40,10 +40,10 @@ Given()
     .HttpClient(HttpClient)
 
     // Base address used when sending requests
-    .BaseAddress(string uri)
+    .BaseAddress("string")
 
     // Base address of URI used when sending requests
-    .BaseAddress(Uri uri)
+    .BaseAddress(Uri)
 ```
 
 #### When
