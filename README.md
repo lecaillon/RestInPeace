@@ -26,50 +26,53 @@ The design of RIP is a call chain that consists of 3 parts that mimics the Arran
 Setup everything needed for the running the tested code.
 
 ```c#
-  Given()
-      //
-      .Body
+Given()
+    // 
+    .Body(object)
 
-      //
-      .Header
+    //
+    .Header("string", "string")
 
-       //
-      .Query
+     //
+    .Query("string", "string")
 
-       //
-      .HttpClient
+     //
+    .HttpClient(HttpClient)
 
-      // 
-      .BaseAddress
+    // 
+    .BaseAddress(string uri)
+
+    // 
+    .BaseAddress(Uri uri)
 ```
 
 #### When
 Invoke the REST service under test.
 ```c#
-   .When()
-      //
-      .Get
+ .When()
+    //
+    .Get("string")
 
-      //
-      .Post
+    //
+    .Post("string")
 
-       //
-      .Put
+     //
+    .Put("string")
 
-       //
-      .Patch
+     //
+    .Patch("string")
 
-      // 
-      .Delete
+    // 
+    .Delete("string")
 ```
 
 #### Then
 Specify the pass criteria for the test, which fails it if not met.
 ```c#
-   .Then()
-      //
-      .AssertThat
+ .Then()
+    //
+    .AssertThat(Action<RIP.HttpResponse>)
 
-      //
-      .Retrieve
+    //
+    .Retrieve()
 ```
