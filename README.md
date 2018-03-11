@@ -27,12 +27,49 @@ Setup everything needed for the running the tested code.
 
 ```c#
   Given()
+      //
+      .Body
+
+      //
+      .Header
+
+       //
+      .Query
+
+       //
+      .HttpClient
+
       // 
       .BaseAddress
 ```
 
 #### When
 Invoke the REST service under test.
+```c#
+   .When()
+      //
+      .Get
+
+      //
+      .Post
+
+       //
+      .Put
+
+       //
+      .Patch
+
+      // 
+      .Delete
+```
 
 #### Then
 Specify the pass criteria for the test, which fails it if not met.
+```c#
+   .Then()
+      //
+      .AssertThat
+
+      //
+      .Retrieve
+```
