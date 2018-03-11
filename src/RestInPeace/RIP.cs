@@ -153,7 +153,7 @@
 
         #region IExecutionContext
 
-        void IExecutionContext.AssertThat(Func<HttpResponse, bool> predicate) => predicate(Execute());
+        void IExecutionContext.AssertThat(Action<HttpResponse> assertion) => assertion(Execute());
 
         HttpResponse IExecutionContext.Retrieve() => Execute();
 
@@ -258,7 +258,7 @@
 
     public interface IExecutionContext
     {
-        void AssertThat(Func<RIP.HttpResponse, bool> predicate);
+        void AssertThat(Action<RIP.HttpResponse> assertion);
         RIP.HttpResponse Retrieve();
     }
 
