@@ -9,7 +9,7 @@
     using System.Threading.Tasks;
     using Newtonsoft.Json;
 
-    public class RIP : IGivenSetupContext, IWhenActionContext, IExecutionContext
+    public class RIP : IArrangeContext, IActContext, IAssertContext, IExecutionContext
     {
         private HttpClient _httpClient;
         private Uri _baseAddress;
@@ -21,13 +21,13 @@
 
         RIP() { }
 
-        #region IGivenSetupContext
+        #region IArrangeContext
 
-        public static IGivenSetupContext Given() => new RIP();
+        public static IArrangeContext Given() => new RIP();
 
-        IWhenActionContext IGivenSetupContext.When() => this as IWhenActionContext;
+        IActContext IArrangeContext.When() => this as IActContext;
 
-        IGivenSetupContext IGivenSetupContext.Body(object body)
+        IArrangeContext IArrangeContext.Body(object body)
         {
             if (body == null)
             {
@@ -39,7 +39,7 @@
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.Header(string key, string value)
+        IArrangeContext IArrangeContext.Header(string key, string value)
         {
             if (!_headers.ContainsKey(key))
             {
@@ -49,7 +49,7 @@
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.Headers(Dictionary<string, string> headers)
+        IArrangeContext IArrangeContext.Headers(Dictionary<string, string> headers)
         {
             foreach (var header in headers)
             {
@@ -62,7 +62,7 @@
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.Query(string key, string value)
+        IArrangeContext IArrangeContext.Query(string key, string value)
         {
             if (!_queryStrings.ContainsKey(key))
             {
@@ -72,7 +72,7 @@
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.Queries(Dictionary<string, string> queries)
+        IArrangeContext IArrangeContext.Queries(Dictionary<string, string> queries)
         {
             foreach (var query in queries)
             {
@@ -85,58 +85,58 @@
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.HttpClient(HttpClient client)
+        IArrangeContext IArrangeContext.HttpClient(HttpClient client)
         {
             _httpClient = client;
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.BaseAddress(Uri uri)
+        IArrangeContext IArrangeContext.BaseAddress(Uri uri)
         {
             _baseAddress = uri;
             return this;
         }
 
-        IGivenSetupContext IGivenSetupContext.BaseAddress(string uri)
+        IArrangeContext IArrangeContext.BaseAddress(string uri)
         {
             _baseAddress = uri.EndsWith("/") ? new Uri(uri)
                                              : new Uri(uri + "/");
             return this;
         }
-        
+
         #endregion
 
-        #region IWhenActionContext
+        #region IActContext
 
-        IExecutionContext IWhenActionContext.Get(string requestUri)
+        IAssertContext IActContext.Get(string requestUri)
         {
             _httpMethod = HttpMethod.Get;
             _requestUri = requestUri;
             return this;
         }
 
-        IExecutionContext IWhenActionContext.Post(string requestUri)
+        IAssertContext IActContext.Post(string requestUri)
         {
             _httpMethod = HttpMethod.Post;
             _requestUri = requestUri;
             return this;
         }
 
-        IExecutionContext IWhenActionContext.Put(string requestUri)
+        IAssertContext IActContext.Put(string requestUri)
         {
             _httpMethod = HttpMethod.Put;
             _requestUri = requestUri;
             return this;
         }
 
-        IExecutionContext IWhenActionContext.Patch(string requestUri)
+        IAssertContext IActContext.Patch(string requestUri)
         {
             _httpMethod = HttpMethod.Patch;
             _requestUri = requestUri;
             return this;
         }
 
-        IExecutionContext IWhenActionContext.Delete(string requestUri)
+        IAssertContext IActContext.Delete(string requestUri)
         {
             _httpMethod = HttpMethod.Delete;
             _requestUri = requestUri;
@@ -145,9 +145,15 @@
 
         #endregion
 
+        #region IAssertContext
+
+        IExecutionContext IAssertContext.Then() => this as IExecutionContext;
+
+        #endregion 
+
         #region IExecutionContext
 
-        void IExecutionContext.Then(Func<HttpResponse, bool> predicate) => predicate(Execute());
+        void IExecutionContext.AssertThat(Func<HttpResponse, bool> predicate) => predicate(Execute());
 
         HttpResponse IExecutionContext.Retrieve() => Execute();
 
@@ -223,31 +229,36 @@
         }
     }
         
-    public interface IGivenSetupContext
+    public interface IArrangeContext
     {
-        IWhenActionContext When();
-        IGivenSetupContext Body(object body);
-        IGivenSetupContext Header(string key, string value);
-        IGivenSetupContext Headers(Dictionary<string, string> headers);
-        IGivenSetupContext Queries(Dictionary<string, string> queries);
-        IGivenSetupContext Query(string key, string value);
-        IGivenSetupContext HttpClient(HttpClient client);
-        IGivenSetupContext BaseAddress(Uri uri);
-        IGivenSetupContext BaseAddress(string uri);
+        IActContext When();
+        IArrangeContext Body(object body);
+        IArrangeContext Header(string key, string value);
+        IArrangeContext Headers(Dictionary<string, string> headers);
+        IArrangeContext Queries(Dictionary<string, string> queries);
+        IArrangeContext Query(string key, string value);
+        IArrangeContext HttpClient(HttpClient client);
+        IArrangeContext BaseAddress(Uri uri);
+        IArrangeContext BaseAddress(string uri);
     }
 
-    public interface IWhenActionContext
+    public interface IActContext
     {
-        IExecutionContext Get(string requestUri);
-        IExecutionContext Post(string requestUri);
-        IExecutionContext Put(string requestUri);
-        IExecutionContext Patch(string requestUri);
-        IExecutionContext Delete(string requestUri);
+        IAssertContext Get(string requestUri);
+        IAssertContext Post(string requestUri);
+        IAssertContext Put(string requestUri);
+        IAssertContext Patch(string requestUri);
+        IAssertContext Delete(string requestUri);
+    }
+
+    public interface IAssertContext
+    {
+        IExecutionContext Then();
     }
 
     public interface IExecutionContext
     {
-        void Then(Func<RIP.HttpResponse, bool> predicate);
+        void AssertThat(Func<RIP.HttpResponse, bool> predicate);
         RIP.HttpResponse Retrieve();
     }
 
