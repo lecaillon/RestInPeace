@@ -6,4 +6,4 @@ Testing REST services made easy. Inspired by REST Assured.
 ### Example
 
 ### Structure
-The design of RIP consists of 3 parts mimic the Arrange Act Assert pattern.
+The design of RIP consists of 3 parts that mimics the Arrange Act Assert pattern.
