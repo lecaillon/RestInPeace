@@ -29,11 +29,6 @@
 
         IArrangeContext IArrangeContext.Body(object body)
         {
-            if (body == null)
-            {
-                return null;
-            }
-
             string stringPayload = JsonConvert.SerializeObject(body);
             _body = new StringContent(stringPayload, Encoding.UTF8, "application/json");
             return this;
